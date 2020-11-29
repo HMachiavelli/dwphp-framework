@@ -1,9 +1,10 @@
 <?php
 
-namespace util;
+namespace Util;
 
 
-class Mask{
+class Mask
+{
 
     const TELEFONE = '8 OU 9 DIGITOS';
     const DOCUMENTO = 'CPF OU CNPJ';
@@ -19,18 +20,17 @@ class Mask{
      * @param  Mask     $mascara
      * @return string (Texto com mascara)
      */
-    public static function mask($txt='', $mascara='') {
-        if(empty($txt) || empty($mascara)){
+    public static function mask($txt = '', $mascara = '')
+    {
+        if (empty($txt) || empty($mascara)) {
             return false;
-        }else if($mascara == Mask::TELEFONE){
+        } else if ($mascara == Mask::TELEFONE) {
             $mascara =  (strlen($txt) == 10 ? '(##)####-####' : '(##)#####-####');
-        }else  if($mascara == Mask::DOCUMENTO){
-            $mascara = (strlen($txt) == 14 ? Mask::CNPJ : (strlen($txt) == 11? Mask::CPF : ''));
+        } else  if ($mascara == Mask::DOCUMENTO) {
+            $mascara = (strlen($txt) == 14 ? Mask::CNPJ : (strlen($txt) == 11 ? Mask::CPF : ''));
         }
 
-        return Mask::MaskFactory($txt , $mascara);
-
-
+        return Mask::MaskFactory($txt, $mascara);
     }
 
     /**
@@ -38,17 +38,18 @@ class Mask{
      *
      * @param  string $texto
      * @return string (Texto com a mascara)
-    */
-    public static function maskFactory($txt='', $mascara='') {
+     */
+    public static function maskFactory($txt = '', $mascara = '')
+    {
         $txt = Mask::unmask($txt);
-        if(empty($txt) || empty($mascara)){
+        if (empty($txt) || empty($mascara)) {
             return false;
         }
 
         $qtd = substr_count($mascara, '#');
-        if($qtd != strlen($txt) && strlen($txt)!=0) {
+        if ($qtd != strlen($txt) && strlen($txt) != 0) {
             return false;
-        }else{
+        } else {
             $string = str_replace(" ", "", $txt);
             for ($i = 0; $i < strlen($string); $i++) {
                 $pos = strpos($mascara, "#");
@@ -65,8 +66,8 @@ class Mask{
      * @param  string $texto
      * @return string (Texto sem a mascara)
      */
-    public static function unMask($texto) {
+    public static function unMask($texto)
+    {
         return preg_replace('/[\-\|\(\)\/\.\: ]/', '', $texto);
     }
-
 }

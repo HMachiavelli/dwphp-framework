@@ -1,10 +1,9 @@
 <?php
 
-namespace util;
+namespace Util;
 
-class DateTime{
-
-
+class DateTime
+{
     /**
      * A constant representing the number of seconds in a minute, for
      * making code more verbose
@@ -72,8 +71,9 @@ class DateTime{
     );
 
 
-    public function __construct($d='now', $ufTimeZone='SP'){
-        $this->setTimeZone((isset($this->timeZonesBR[$ufTimeZone])?$this->timeZonesBR[$ufTimeZone]:$this->timeZonesBR['SP']));
+    public function __construct($d = 'now', $ufTimeZone = 'SP')
+    {
+        $this->setTimeZone((isset($this->timeZonesBR[$ufTimeZone]) ? $this->timeZonesBR[$ufTimeZone] : $this->timeZonesBR['SP']));
         $this->setDateOBJ(new \DateTime(str_replace('/', '-', $d)));
         $this->getDateOBJ()->setTimezone(new \DateTimeZone($this->getTimeZone()));
     }
@@ -81,153 +81,178 @@ class DateTime{
     /**
      * @return date d/m/y - 14/08/1992
      */
-    public function dateBR($s='/'){
-        return $this->getDateOBJ()->format("d".$s."m".$s."Y");
+    public function dateBR($s = '/')
+    {
+        return $this->getDateOBJ()->format("d" . $s . "m" . $s . "Y");
     }
 
     /**
      * @return date Y/m/d - 1992/08/14
      */
-    public function dateUS($s='-'){
-        return $this->getDateOBJ()->format("Y".$s."m".$s."d");
+    public function dateUS($s = '-')
+    {
+        return $this->getDateOBJ()->format("Y" . $s . "m" . $s . "d");
     }
 
     /**
      * @return date d/m/Y H:i:s - 14/08/1992 13:45:28
      */
-    public function dateTimeBR($d='/',$h=':'){
-        return $this->getDateOBJ()->format("d".$d."m".$d."Y H".$h."i".$h."s");
+    public function dateTimeBR($d = '/', $h = ':')
+    {
+        return $this->getDateOBJ()->format("d" . $d . "m" . $d . "Y H" . $h . "i" . $h . "s");
     }
 
     /**
      * @return date Y-m-d H:i:s - 1992/08/14 13:45:28
      */
-    public function dateTimeUS($d='-',$h=':'){
-        return $this->getDateOBJ()->format("Y".$d."m".$d."d H".$h."i".$h."s");
+    public function dateTimeUS($d = '-', $h = ':')
+    {
+        return $this->getDateOBJ()->format("Y" . $d . "m" . $d . "d H" . $h . "i" . $h . "s");
     }
 
     /**
      * @return timestamp 1434966025
      */
-    public function timestamp($d='-',$h=':'){
+    public function timestamp($d = '-', $h = ':')
+    {
         return $this->getDateOBJ()->getTimestamp();
     }
 
     /**
      * @return date
-    */
-    public function addDay($d){
-        return $this->getDateOBJ()->add(new \DateInterval('P'.(int)$d.'D'));
+     */
+    public function addDay($d)
+    {
+        return $this->getDateOBJ()->add(new \DateInterval('P' . (int)$d . 'D'));
     }
 
     /**
      * @return date
-    */
-    public function addMonth($m){
-        return $this->getDateOBJ()->add(new \DateInterval('P'.(int)$m.'D'));
+     */
+    public function addMonth($m)
+    {
+        return $this->getDateOBJ()->add(new \DateInterval('P' . (int)$m . 'D'));
     }
 
     /**
      * @return date
-    */
-    public function addYear($y){
-        return $this->getDateOBJ()->add(new \DateInterval('P'.(int)$y.'Y'));
+     */
+    public function addYear($y)
+    {
+        return $this->getDateOBJ()->add(new \DateInterval('P' . (int)$y . 'Y'));
     }
 
     /**
      * @return date
-    */
-    public function addHour($h){
-        return $this->getDateOBJ()->add(new \DateInterval('PT'.(int)$h.'H'));
+     */
+    public function addHour($h)
+    {
+        return $this->getDateOBJ()->add(new \DateInterval('PT' . (int)$h . 'H'));
     }
     /**
      * @return date
-    */
-    public function addMinut($m){
-        return $this->getDateOBJ()->add(new \DateInterval('PT'.(int)$m.'M'));
+     */
+    public function addMinut($m)
+    {
+        return $this->getDateOBJ()->add(new \DateInterval('PT' . (int)$m . 'M'));
     }
     /**
      * @return date
-    */
-    public function addSecond($s){
-        return $this->getDateOBJ()->add(new \DateInterval('PT'.(int)$s.'S'));
-    }
-
-    /**
-     * @return date
-    */
-    public function subDay($d){
-        return $this->getDateOBJ()->sub(new \DateInterval('P'.(int)$d.'D'));
+     */
+    public function addSecond($s)
+    {
+        return $this->getDateOBJ()->add(new \DateInterval('PT' . (int)$s . 'S'));
     }
 
     /**
      * @return date
-    */
-    public function subMonth($m){
-        return $this->getDateOBJ()->sub(new \DateInterval('P'.(int)$m.'D'));
+     */
+    public function subDay($d)
+    {
+        return $this->getDateOBJ()->sub(new \DateInterval('P' . (int)$d . 'D'));
     }
 
     /**
      * @return date
-    */
-    public function subYear($y){
-        return $this->getDateOBJ()->sub(new \DateInterval('P'.(int)$y.'Y'));
+     */
+    public function subMonth($m)
+    {
+        return $this->getDateOBJ()->sub(new \DateInterval('P' . (int)$m . 'D'));
     }
 
     /**
      * @return date
-    */
-    public function subHour($h){
-        return $this->getDateOBJ()->sub(new \DateInterval('PT'.(int)$h.'H'));
+     */
+    public function subYear($y)
+    {
+        return $this->getDateOBJ()->sub(new \DateInterval('P' . (int)$y . 'Y'));
+    }
+
+    /**
+     * @return date
+     */
+    public function subHour($h)
+    {
+        return $this->getDateOBJ()->sub(new \DateInterval('PT' . (int)$h . 'H'));
     }
     /**
      * @return date
-    */
-    public function subMinut($m){
-        return $this->getDateOBJ()->sub(new \DateInterval('PT'.(int)$m.'M'));
+     */
+    public function subMinut($m)
+    {
+        return $this->getDateOBJ()->sub(new \DateInterval('PT' . (int)$m . 'M'));
     }
     /**
      * @return date
-    */
-    public function subSecond($s){
-        return $this->getDateOBJ()->sub(new \DateInterval('PT'.(int)$s.'S'));
+     */
+    public function subSecond($s)
+    {
+        return $this->getDateOBJ()->sub(new \DateInterval('PT' . (int)$s . 'S'));
     }
 
     /**
      * @return America/Sao_Paulo
      */
-    public function timeZone(){
+    public function timeZone()
+    {
         return $this->getDateOBJ()->format("e");
     }
 
-    public function month(){
+    public function month()
+    {
         return $this->getDateOBJ()->format('m');
     }
 
-    public function year(){
+    public function year()
+    {
         return $this->getDateOBJ()->format('y');
     }
 
-    public function day(){
+    public function day()
+    {
         return $this->getDateOBJ()->format('d');
     }
 
-    public function hour(){
+    public function hour()
+    {
         return $this->getDateOBJ()->format('hour');
     }
 
-    public function minut(){
+    public function minut()
+    {
         return $this->getDateOBJ()->format('i');
     }
 
-    public function second(){
+    public function second()
+    {
         return $this->getDateOBJ()->format('s');
     }
 
     /**
      * @return mixed
      */
-    public function getDateOBJ(){
+    public function getDateOBJ()
+    {
         return $this->dateOBJ;
     }
 
@@ -236,7 +261,8 @@ class DateTime{
      *
      * @return self
      */
-    public function setDateOBJ(\DateTime $dateOBJ){
+    public function setDateOBJ(\DateTime $dateOBJ)
+    {
         $this->dateOBJ = $dateOBJ;
 
         return $this;
@@ -245,7 +271,8 @@ class DateTime{
     /**
      * @return mixed
      */
-    public function getTimeZone(){
+    public function getTimeZone()
+    {
         return $this->timeZone;
     }
 
@@ -254,7 +281,8 @@ class DateTime{
      *
      * @return self
      */
-    public function setTimeZone($timeZone){
+    public function setTimeZone($timeZone)
+    {
         $this->timeZone = $timeZone;
 
         return $this;

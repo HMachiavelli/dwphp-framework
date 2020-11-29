@@ -1,7 +1,13 @@
 {
     "name": "dezwork/dwphp-framework",
     "description": "Framework php7 with environment development, testing, staging and production.",
-    "keywords": ["Framework", "php", "Framework php7", "dwphp", "dwphp-framework"],
+    "keywords": [
+        "Framework",
+        "php",
+        "Framework php7",
+        "dwphp",
+        "dwphp-framework"
+    ],
     "homepage": "https://github.com/dezwork/dwphp-framework",
     "type": "library",
     "license": "BSD-3-Clause",
@@ -32,15 +38,18 @@
             "DwPhp\\": "config/construction/",
             "DwPhp\\Library\\": "library/",
             "App\\Entity\\": "app/entity/",
-            "App\\Library\\":  [
-                "library/", "library/src/", "library/tests/"
+            "App\\Library\\": [
+                "library/",
+                "library/src/",
+                "library/tests/"
             ],
             "App\\Models\\": [
-                "app/models/src/", "app/models/tests/"
+                "app/Models/src/",
+                "app/Models/tests/"
             ],
-    	    "util\\": [
-                "library/util/src/",
-                "library/util/tests/"
+            "Util\\": [
+                "library/Util/src/",
+                "library/Util/tests/"
             ]
         }
     }

@@ -1,54 +1,55 @@
 <?php
 
-namespace util;
+namespace Util;
 
-class HumanizeBR{
+class HumanizeBR
+{
 
 
     const DICTIONARY  = array(
-            0                   => 'zero',
-            1                   => 'um',
-            2                   => 'dois',
-            3                   => 'três',
-            4                   => 'quatro',
-            5                   => 'cinco',
-            6                   => 'seis',
-            7                   => 'sete',
-            8                   => 'oito',
-            9                   => 'nove',
-            10                  => 'dez',
-            11                  => 'onze',
-            12                  => 'doze',
-            13                  => 'treze',
-            14                  => 'quatorze',
-            15                  => 'quinze',
-            16                  => 'dezesseis',
-            17                  => 'dezessete',
-            18                  => 'dezoito',
-            19                  => 'dezenove',
-            20                  => 'vinte',
-            30                  => 'trinta',
-            40                  => 'quarenta',
-            50                  => 'cinquenta',
-            60                  => 'sessenta',
-            70                  => 'setenta',
-            80                  => 'oitenta',
-            90                  => 'noventa',
-            100                 => array('cem', 'cento'),
-            200                 => 'duzentos',
-            300                 => 'trezentos',
-            400                 => 'quatrocentos',
-            500                 => 'quinhentos',
-            600                 => 'seiscentos',
-            700                 => 'setecentos',
-            800                 => 'oitocentos',
-            900                 => 'novecentos',
-            1000                => 'mil',
-            1000000             => array('milhão', 'milhões'),
-            1000000000          => array('bilhão', 'bilhões'),
-            1000000000000       => array('trilhão', 'trilhões'),
-            1000000000000000    => array('quatrilhão', 'quatrilhões'),
-            1000000000000000000 => array('quinquilhão', 'quinquilhões')
+        0                   => 'zero',
+        1                   => 'um',
+        2                   => 'dois',
+        3                   => 'três',
+        4                   => 'quatro',
+        5                   => 'cinco',
+        6                   => 'seis',
+        7                   => 'sete',
+        8                   => 'oito',
+        9                   => 'nove',
+        10                  => 'dez',
+        11                  => 'onze',
+        12                  => 'doze',
+        13                  => 'treze',
+        14                  => 'quatorze',
+        15                  => 'quinze',
+        16                  => 'dezesseis',
+        17                  => 'dezessete',
+        18                  => 'dezoito',
+        19                  => 'dezenove',
+        20                  => 'vinte',
+        30                  => 'trinta',
+        40                  => 'quarenta',
+        50                  => 'cinquenta',
+        60                  => 'sessenta',
+        70                  => 'setenta',
+        80                  => 'oitenta',
+        90                  => 'noventa',
+        100                 => array('cem', 'cento'),
+        200                 => 'duzentos',
+        300                 => 'trezentos',
+        400                 => 'quatrocentos',
+        500                 => 'quinhentos',
+        600                 => 'seiscentos',
+        700                 => 'setecentos',
+        800                 => 'oitocentos',
+        900                 => 'novecentos',
+        1000                => 'mil',
+        1000000             => array('milhão', 'milhões'),
+        1000000000          => array('bilhão', 'bilhões'),
+        1000000000000       => array('trilhão', 'trilhões'),
+        1000000000000000    => array('quatrilhão', 'quatrilhões'),
+        1000000000000000000 => array('quinquilhão', 'quinquilhões')
     );
 
 
@@ -59,8 +60,9 @@ class HumanizeBR{
      * @param  int    number
      * @return string
      */
-    public static function numberToWords($number, $measurement='') {
-        if(strpos($number, ',')!== false) {
+    public static function numberToWords($number, $measurement = '')
+    {
+        if (strpos($number, ',') !== false) {
             $number = str_replace(',', '.', $number);
         }
         if (!is_numeric($number)) {
@@ -78,7 +80,7 @@ class HumanizeBR{
 
         $string = $fraction = null;
 
-        if(strpos($number, '.')!== false) {
+        if (strpos($number, '.') !== false) {
             list($number, $fraction) = explode('.', $number);
         }
 
@@ -95,18 +97,18 @@ class HumanizeBR{
                 }
                 break;
             case $number < 1000:
-                $hundreds  = floor($number / 100)*100;
+                $hundreds  = floor($number / 100) * 100;
                 $remainder = $number % 100;
 
-                if($number==100){
+                if ($number == 100) {
                     $string = HumanizeBR::DICTIONARY[$hundreds][0];
-                }else if($number<200){
+                } else if ($number < 200) {
                     $string = HumanizeBR::DICTIONARY[$hundreds][1];
-                }else{
+                } else {
                     $string = HumanizeBR::DICTIONARY[$hundreds];
                 }
 
-                if($remainder){
+                if ($remainder) {
                     $string .= ' e ' . HumanizeBR::numberToWords($remainder);
                 }
                 break;
@@ -114,14 +116,14 @@ class HumanizeBR{
                 $baseUnit = pow(1000, floor(log($number, 1000)));
                 $numBaseUnits = (int) ($number / $baseUnit);
                 $remainder = $number % $baseUnit;
-                if($baseUnit == 1000) {
+                if ($baseUnit == 1000) {
                     $string = HumanizeBR::numberToWords($numBaseUnits) . ' ' . HumanizeBR::DICTIONARY[1000];
-                }elseif($numBaseUnits == 1) {
+                } elseif ($numBaseUnits == 1) {
                     $string = HumanizeBR::numberToWords($numBaseUnits) . ' ' . HumanizeBR::DICTIONARY[$baseUnit][0];
-                }else{
+                } else {
                     $string = HumanizeBR::numberToWords($numBaseUnits) . ' ' . HumanizeBR::DICTIONARY[$baseUnit][1];
                 }
-                if($remainder){
+                if ($remainder) {
                     $string .= $remainder < 100 ? ' e ' : ', ';
                     $string .= HumanizeBR::numberToWords($remainder);
                 }
@@ -133,7 +135,7 @@ class HumanizeBR{
             $string .= HumanizeBR::numberToWords($fraction);
         }
 
-        return $string.($measurement!=''?' '. $measurement : '' );
+        return $string . ($measurement != '' ? ' ' . $measurement : '');
     }
 
     /**
@@ -145,7 +147,8 @@ class HumanizeBR{
      * @param  string $suffix The string to add to the end, defaults to " ago"
      * @return string
      */
-    public static function humanTimeDiff($from, $to = '', $as_text = false, $suffix = ' atrás'){
+    public static function humanTimeDiff($from, $to = '', $as_text = false, $suffix = ' atrás')
+    {
         if ($to == '') {
             $to = time();
         }
@@ -188,6 +191,4 @@ class HumanizeBR{
         }
         return trim($text) . $suffix;
     }
-
-
 }

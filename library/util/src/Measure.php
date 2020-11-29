@@ -1,8 +1,9 @@
 <?php
 
-namespace util;
+namespace Util;
 
-class Measure{
+class Measure
+{
 
     /**
      * Formatação agradável para tamanhos de computador (Bytes).
@@ -11,7 +12,8 @@ class Measure{
      * @param   integer $decimals O número de pontos decimais a incluir
      * @return  string
      */
-    public static function sizeFormat($bytes, $decimals = 0){
+    public static function sizeFormat($bytes, $decimals = 0)
+    {
         $bytes = floatval($bytes);
         if ($bytes < 1024) {
             return number_format($bytes, $decimals, '.', '') . ' B';
@@ -37,7 +39,8 @@ class Measure{
      * @param   integer $decimals O tipo de saída
      * @return  string
      */
-    function convertMemorySize($strval, string $to_unit = 'b'){
+    function convertMemorySize($strval, string $to_unit = 'b')
+    {
         $strval    = strtolower(str_replace(' ', '', $strval));
         $val       = floatval($strval);
         $to_unit   = strtolower(trim($to_unit))[0];
@@ -46,19 +49,17 @@ class Measure{
         $units     = 'kmgtph';  // (k)ilobyte, (m)egabyte, (g)igabyte and so on...
 
         // Convert to bytes
-        if ($from_unit !== 'b'){
+        if ($from_unit !== 'b') {
             $val *= 1024 ** (strpos($units, $from_unit) + 1);
         }
 
         // Convert to unit
-        if ($to_unit !== 'b'){
+        if ($to_unit !== 'b') {
             $val /= 1024 ** (strpos($units, $to_unit) + 1);
         }
 
-        $val = $val.' '.($to_unit!='b'?strtoupper($to_unit).'B':'B');
+        $val = $val . ' ' . ($to_unit != 'b' ? strtoupper($to_unit) . 'B' : 'B');
 
         return $val;
     }
-
-
 }

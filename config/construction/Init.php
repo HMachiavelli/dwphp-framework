@@ -4,9 +4,10 @@ namespace DwPhp;
 
 use Monolog\Logger;
 use Monolog\ErrorHandler;
+use Symfony\Component\Yaml\Yaml;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\FirePHPHandler;
-use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
  * Class for initialize.
@@ -20,7 +21,7 @@ class Init
 	//production, sandbox, staging, testing ou development
 	public $environmentStatus 	=	'';
 	//array com todas as aplicações ativas no sistmas, por padrão já inicializa com default
-	public $application 		=	array();
+	public $application 		=	[];
 	//local onde será encontrado os arquivos da application
 	private $applicationPath 	=	'';
 	//local onde será encontrado os arquivos da application
@@ -32,7 +33,7 @@ class Init
 	//nome da applicação em uso no momento
 	private $nameApplication 	=	'';
 	/**
-		define variaveis para alterar as configurações do php.ini
+	 *	define variaveis para alterar as configurações do php.ini
 	 */
 	// exibe ou não os erros no browser. Opções (On | Off)
 	private $displayErrors 		= 	'On';
@@ -64,7 +65,7 @@ class Init
 	/* permite cache de páginas. Padrão é false */
 	private $chaceNavegation 	= 	false;
 	/**
-		define localidade, padrão pt_BR
+	 *	define localidade, padrão pt_BR
 	 */
 	private $locale 			=	'pt_BR';
 	private $dateTimezone 		=	'America/Sao_Paulo';
@@ -72,7 +73,7 @@ class Init
 	private $postMaxSize 		=	'100';
 
 	/**
-		controle da url
+	 *	controle da url
 	 */
 	// força o direcoinamento para https
 	private $useHttps 			=	'Off';
@@ -83,21 +84,21 @@ class Init
 	// endereço web sem http e sem www
 	public $pathBaseHref 		=	'';
 	// armazenará as posições da url amigavel: getPosUrl($num), retornará o resultado contando além do path Application
-	public $posURL 				= 	array();
+	public $posURL 				= 	[];
 	// diretório da url após o nome application ex: dwphp/gerencidor/teste/acb123/ -> retorno: teste/acb123/
 	public $urlCompletePath		= 	'';
 	/**
 	 *	Database para desnevolvimento
 	 */
-	private $dbConfig 			=	array();
+	private $dbConfig 			=	[];
 
 	//controle de arquivos
-	public  $pathURI;
-	public  $pageCtrl;
-	public  $pageAction;
-	public  $pageView;
-	public  $ctrlFunction;
-	public  $methodsURI;
+	public $pathURI;
+	public $pageCtrl;
+	public $pageAction;
+	public $pageView;
+	public $ctrlFunction;
+	public $methodsURI;
 
 	function __construct($type = '')
 	{
@@ -513,7 +514,7 @@ class Init
 		}
 	}
 
-	public function setConnectionDb($app_config = array())
+	public function setConnectionDb($app_config = [])
 	{
 		//Get address_uri of file app_config.yml
 		if ($this->getEnvironmentStatus() == 'production') {
@@ -632,8 +633,10 @@ class Init
 			}
 		}
 
-		for ($i = 0; $i < count($key); $i++) {
-			array_shift($tmp);
+		if (is_array($key)) {
+			for ($i = 0; $i < count($key); $i++) {
+				array_shift($tmp);
+			}
 		}
 
 		if (!isset($app_path)) {
@@ -685,16 +688,18 @@ class Init
 				unset($a[$key]);
 			}
 		}
+
+		$this->setHelpers(false);
 		if (reset($a) == 'helpers') {
 			array_shift($a);
 			$this->setHelpers(true);
-		} else {
-			$this->setHelpers(false);
 		}
+
 		$this->setPathURI($a);
 		foreach ($a as $key => $value) {
 			$this->posURL[] = $value;
 		}
+
 		$url_array = $this->getPathURI();
 		$directory_action = $directory_ctrl = $directory_view = '';
 		if ($this->getHelpers() == true) {
@@ -755,9 +760,10 @@ class Init
 				}
 			} while (!$dir);
 		}
+
 		//verifica se existe a view
 		if ($this->getHelpers() == true && file_exists($directory_action) && is_file($directory_action)) {
-			// inicia actoin
+			// inicia action
 			$this->setPageAction($directory_action);
 			if (strpos($_SERVER['HTTP_ACCEPT'], 'htm') === false) {
 				$this->instanceTemplate($this->getPageAction());
@@ -775,9 +781,11 @@ class Init
 		if (!file_exists($directory_ctrl) || !is_file($directory_ctrl)) {
 			$this->setPageCtrl($this->getPathApplication('controllers/error/', '404.php'));
 		}
+
 		if (!file_exists($directory_view) || !is_file($directory_view)) {
 			$this->setPageView($this->getPathApplication('views/error/', '404.php'));
 		}
+
 		if ($this->getHelpers() == false) {
 			$this->instanceTemplate($this->getPathApplication('views/layout/', 'template.php'));
 		}
@@ -819,7 +827,7 @@ class Init
 						if (strlen($text) != 0) {
 							$text .= "\n";
 						}
-						$text .= $page . "|" . implode($lines[1], ";") . ';' . $timer . ";" . "\n";
+						$text .= $page . "|" . implode(';', $lines[1]) . ';' . $timer . ";" . "\n";
 					} else {
 						$text .= $line;
 					}

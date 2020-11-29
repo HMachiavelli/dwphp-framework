@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @Author: Cleberson Bieleski
  * @Date:   2018-03-14 15:52:50
@@ -6,18 +7,19 @@
  * @Last Modified time: 21-03-2018 11:51:22
  */
 
-use util\Server;
+use Util\Server;
 use PHPUnit\Framework\TestCase;
-class ServerTest extends TestCase{
+
+class ServerTest extends TestCase
+{
     /*
     * @covers util\Server::isHttps()
     */
-    public function testIsHttps(){
+    public function testIsHttps()
+    {
         $_SERVER['HTTPS'] = null;
-        $this->assertFalse( (new Server)->isHttps() );
+        $this->assertFalse((new Server)->isHttps());
         $_SERVER['HTTPS'] = 'on';
-        $this->assertTrue( (new Server)->isHttps() );
+        $this->assertTrue((new Server)->isHttps());
     }
-
-
 }

@@ -1,37 +1,40 @@
 <?php
 
-namespace util;
+namespace Util;
 
 
-class Arrays{
-
-	/**
-    * Remova as duplicatas de uma matriz.
-    *
-    * Esta versão é mais rápida do que o conjunto array_unique().
-    *
-    * Notes on time requirements:
-    *   array_unique -> O(n log n)
-    *   array_flip -> O(n)
-    *
-    * @param  $array
-    * @return $array
-    */
-    public static function fastArrayUnique($array){
-        $array = array_keys(array_flip($array));
-        return $array;
-   	}
+class Arrays
+{
 
     /**
-    * Acessa um índice de matriz, recuperando o valor armazenado ali se existir ou um padrão se não o fizer.
-    * Esta função permite acessar de forma concisa um índice que pode ou não existir sem
-    *
-    * @param  array  $var     Array value to access
-    * @param  mixed  $default Default value to return if the key is not
-    *                         present in the array
-    * @return mixed
-    */
-    public static function arrayGet(&$var, $default = null){
+     * Remova as duplicatas de uma matriz.
+     *
+     * Esta versão é mais rápida do que o conjunto array_unique().
+     *
+     * Notes on time requirements:
+     *   array_unique -> O(n log n)
+     *   array_flip -> O(n)
+     *
+     * @param  $array
+     * @return $array
+     */
+    public static function fastArrayUnique($array)
+    {
+        $array = array_keys(array_flip($array));
+        return $array;
+    }
+
+    /**
+     * Acessa um índice de matriz, recuperando o valor armazenado ali se existir ou um padrão se não o fizer.
+     * Esta função permite acessar de forma concisa um índice que pode ou não existir sem
+     *
+     * @param  array  $var     Array value to access
+     * @param  mixed  $default Default value to return if the key is not
+     *                         present in the array
+     * @return mixed
+     */
+    public static function arrayGet(&$var, $default = null)
+    {
         if (isset($var)) {
             return $var;
         }
@@ -40,13 +43,14 @@ class Arrays{
 
 
     /**
-    * Returns boolean if a function is an associative array
-    *
-    * @param  array   $array        An array to test
-    *
-    * @return boolean
-    */
-    public static function isAssocArray($array){
+     * Returns boolean if a function is an associative array
+     *
+     * @param  array   $array        An array to test
+     *
+     * @return boolean
+     */
+    public static function isAssocArray($array)
+    {
         if (!is_array($array)) {
             return false;
         }
@@ -59,17 +63,22 @@ class Arrays{
 
 
     /**
-    * Retorna booleano se uma função é uma matriz numérica plana / seqüencial
-    *
-    * @param  array   $array        An array to test
-    *
-    * @return boolean
-    */
-    public static function isNumericArray($array){
-        if (!is_array($array)) { return false; }
+     * Retorna booleano se uma função é uma matriz numérica plana / seqüencial
+     *
+     * @param  array   $array        An array to test
+     *
+     * @return boolean
+     */
+    public static function isNumericArray($array)
+    {
+        if (!is_array($array)) {
+            return false;
+        }
         $current = 0;
         foreach (array_keys($array) as $key) {
-            if ($key !== $current) { return false; }
+            if ($key !== $current) {
+                return false;
+            }
             $current++;
         }
         return true;
@@ -82,7 +91,8 @@ class Arrays{
      * @param  array $array
      * @return mixed
      */
-    public static function arrayFirst(array $array){
+    public static function arrayFirst(array $array)
+    {
         return reset($array);
     }
 
@@ -93,7 +103,8 @@ class Arrays{
      * @param  array $array
      * @return mixed
      */
-    public static function arrayLast(array $array){
+    public static function arrayLast(array $array)
+    {
         return end($array);
     }
 
@@ -103,7 +114,8 @@ class Arrays{
      * @param  array $array
      * @return int|string
      */
-    public static function arrayFirstKey(array $array){
+    public static function arrayFirstKey(array $array)
+    {
         reset($array);
         return key($array);
     }
@@ -114,7 +126,8 @@ class Arrays{
      * @param  array $array
      * @return int|string
      */
-    public static function arrayLastKey(array $array){
+    public static function arrayLastKey(array $array)
+    {
         end($array);
         return key($array);
     }
@@ -128,7 +141,8 @@ class Arrays{
      *                                overwrite keys from shallowy nested arrays
      * @return array
      */
-    public static function arrayFlatten(array $array, $preserve_keys = true){
+    public static function arrayFlatten(array $array, $preserve_keys = true)
+    {
         $flattened = array();
         array_walk_recursive($array, function ($value, $key) use (&$flattened, $preserve_keys) {
             if ($preserve_keys && !is_int($key)) {
@@ -152,7 +166,8 @@ class Arrays{
      *                                   remove it from the array
      * @return array
      */
-    public static function arrayPluck(array $array, $field, $preserve_keys = true, $remove_nomatches = true){
+    public static function arrayPluck(array $array, $field, $preserve_keys = true, $remove_nomatches = true)
+    {
         $new_list = array();
         foreach ($array as $key => $value) {
             if (is_object($value)) {
@@ -190,7 +205,8 @@ class Arrays{
      *                         all fields will be searched
      * @return boolean|scalar  False on failure or the array key on success
      */
-    public static function arraySearchDeep(array $array, $search, $field = false){
+    public static function arraySearchDeep(array $array, $search, $field = false)
+    {
         // *grumbles* stupid PHP type system
         $search = (string) $search;
         foreach ($array as $key => $elem) {
@@ -233,7 +249,8 @@ class Arrays{
      *                               (Objects, resources, etc)
      * @return array
      */
-    public static function arrayMapDeep(array $array, $callback, $on_nonscalar = false){
+    public static function arrayMapDeep(array $array, $callback, $on_nonscalar = false)
+    {
         foreach ($array as $key => $value) {
             if (is_array($value)) {
                 $args = array($value, $callback, $on_nonscalar);
@@ -255,7 +272,8 @@ class Arrays{
 
      * @return  array
      */
-    public static function arrayMergeDeep(array $dest, array $src, $appendIntegerKeys = true){
+    public static function arrayMergeDeep(array $dest, array $src, $appendIntegerKeys = true)
+    {
         foreach ($src as $key => $value) {
             if (is_int($key) and $appendIntegerKeys) {
                 $dest[] = $value;
@@ -268,8 +286,8 @@ class Arrays{
         return $dest;
     }
 
-    public static function arrayClean(array $array){
+    public static function arrayClean(array $array)
+    {
         return array_filter($array);
     }
-
 }
